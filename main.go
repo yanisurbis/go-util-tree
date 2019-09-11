@@ -21,16 +21,17 @@ func dirTree1(out io.Writer, path string, printFiles bool, level int, prefix str
 		return err
 	}
 
-	//dirs := make([]os.FileInfo, len(files))
-	//for _, f := range files {
-	//	if f.IsDir() {
-	//		dirs = append(dirs, f)
-	//	}
-	//}
-	//
-	//if !printFiles {
-	//	files = dirs
-	//}
+	if !printFiles {
+		dirs := make([]os.FileInfo, 0, len(files))
+
+		for _, f := range files {
+			if f.IsDir() {
+				dirs = append(dirs, f)
+			}
+		}
+
+		files = dirs
+	}
 
 	sort.Slice(files, func(i, j int) bool { return files[i].Name() < files[j].Name() })
 
