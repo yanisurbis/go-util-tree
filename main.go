@@ -27,13 +27,17 @@ func dirTree1(out io.Writer, path string, printFiles bool, level int, prefix str
 	//		dirs = append(dirs, f)
 	//	}
 	//}
+	//
+	//if !printFiles {
+	//	files = dirs
+	//}
 
 	sort.Slice(files, func(i, j int) bool { return files[i].Name() < files[j].Name() })
 
 	for i, f := range files {
-		x := prefix + "├───"
+		x := "├───"
 		if i == len(files)-1 {
-			x = prefix + "└───"
+			x = "└───"
 		}
 
 		if f.IsDir() {
@@ -44,11 +48,11 @@ func dirTree1(out io.Writer, path string, printFiles bool, level int, prefix str
 				return err
 			}
 
-			var nextPrefix string
+			nextPrefix := prefix
 			if i == len(files)-1 {
-				nextPrefix = prefix + "\t"
+				nextPrefix += " \t"
 			} else {
-				nextPrefix = prefix + "│\t"
+				nextPrefix += "│\t"
 			}
 
 			err = dirTree1(out, path+"/"+f.Name(), printFiles, level+1, nextPrefix)
