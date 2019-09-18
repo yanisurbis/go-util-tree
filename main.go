@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
 	"io"
 	"io/ioutil"
@@ -51,7 +52,7 @@ func dirTree1(out io.Writer, path string, printFiles bool, level int, prefix str
 
 			nextPrefix := prefix
 			if i == len(files)-1 {
-				nextPrefix += " \t"
+				nextPrefix += "\t"
 			} else {
 				nextPrefix += "│\t"
 			}
@@ -80,7 +81,8 @@ func dirTree1(out io.Writer, path string, printFiles bool, level int, prefix str
 }
 
 func main() {
-	out := os.Stdout
+	//out := os.Stdout
+	out := new(bytes.Buffer)
 	if !(len(os.Args) == 2 || len(os.Args) == 3) {
 		panic("usage go run main.go . [-f]")
 	}
